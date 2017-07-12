@@ -32,8 +32,8 @@ Tiandi.prototype.getProcesser = function (callback) {
                     doc.medicine_name = util.decodeUTF8($(".priceTableRows li:nth-child("+i+") .w1 a").html());
                     doc.medicine_price = $(".priceTableRows li:nth-child("+i+") .w3").html() * 100;
                     let typeAndArea = util.decodeUTF8($(".priceTableRows li:nth-child("+i+") .w2 a").html()).split(' ');
-                    doc.produce_area = typeAndArea[0];
-                    doc.medicine_type = typeAndArea[1];
+                    doc.produce_area = typeAndArea[1];
+                    doc.medicine_type = typeAndArea[0];
                     doc.price_trend = util.decodeUTF8($(".priceTableRows li:nth-child("+i+") .w4").html());
                     doc.time = moment.now();
 
