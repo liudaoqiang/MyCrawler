@@ -16,6 +16,7 @@ let TiandiProcesser = require('./priceProcesser/tiandi');
 
 var c = new Crawler({
     maxConnections : 10,
+    rateLimit: 20,
     // This will be called for each crawled page
     callback : function (error, res, done) {
         if(error){

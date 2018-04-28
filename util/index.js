@@ -7,7 +7,7 @@ const async = require('async');
 
 exports.decodeUTF8 = function (str) {
     if (!!str && typeof str === "string") {
-        return unescape(str.replace(/&#x/g, '%u').replace(/;/g, ''));
+        return unescape(str.replace(/[\t]/g,"").replace(/[\r]/g,"").replace(/[\n]/g,"").replace(/&#x/g, '%u').replace(/;/g, ''));
     } else {
         return str;
     }
