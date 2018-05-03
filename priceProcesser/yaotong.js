@@ -47,7 +47,7 @@ YaoTong.prototype.saveDataToMongo = function (rawData) {
                 if (!!$priceData) {
                     let doc = {
                         site_name: "yt1998.com",
-                        market_name: $priceData.shichang,
+                        market_name: $priceData.shichang === "荷花池" ? "成都" : $priceData.shichang,
                         medicine_name: $priceData.ycnam,
                         medicine_price: $priceData.pri * 100,
                         produce_area: $priceData.chandi,
