@@ -31,7 +31,7 @@ var c = new Crawler({
     }
 });
 
-schedule.scheduleJob('33 10 * * *', function() {
+function crawleInternetPrices() {
     redis.getAsync(RedisKeys.InternetPriceMedicineName).then(result => {
         if (!!result) {
             const datas = JSON.parse(result);
@@ -50,5 +50,12 @@ schedule.scheduleJob('33 10 * * *', function() {
             });
         }
     });
-
-});
+}
+const env = process.env.NODE_ENV;
+if (env === 'local') {
+    crawleInternetPrices();
+} else {
+    schedule.scheduleJob('33 10 * * *', function() {
+        crawleInternetPrices();
+    });
+}
