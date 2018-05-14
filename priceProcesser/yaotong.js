@@ -53,7 +53,8 @@ YaoTong.prototype.saveDataToMongo = function (rawData) {
                         produce_area: $priceData.chandi,
                         medicine_type: $priceData.guige,
                         price_trend: $priceData.zoushi,
-                        time: moment.now()
+                        time: moment.now(),
+                        public_date: moment().format('YYYY-MM-DD')
                     };
                     internetPricesData.save(doc)
                 }

@@ -36,6 +36,7 @@ Tiandi.prototype.getProcesser = function (callback) {
                     doc.medicine_type = typeAndArea[0];
                     doc.price_trend = util.decodeUTF8($(".priceTableRows li:nth-child("+i+") .w4").html());
                     doc.time = moment.now();
+                    doc.public_date = moment().format('YYYY-MM-DD');
 
                     // console.log(JSON.stringify(doc));
                     datas[i] = doc;

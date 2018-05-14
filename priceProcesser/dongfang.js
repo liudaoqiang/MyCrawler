@@ -47,6 +47,7 @@ Dongfang.prototype.getProcesser = function (callback) {
                         doc.medicine_price = $("#ContentPlaceHolder1_GridView1 tr:nth-child("+i+") td:nth-child(4)").html() * 100;
                         doc.price_trend = util.decodeUTF8($("#ContentPlaceHolder1_GridView1 tr:nth-child("+i+") td:nth-child(5)").html());
                         doc.time = moment.now();
+                        doc.public_date = moment().format('YYYY-MM-DD');
 
                         console.log(JSON.stringify(doc));
                         datas[i] = doc;
