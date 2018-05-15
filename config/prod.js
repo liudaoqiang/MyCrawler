@@ -33,11 +33,11 @@ module.exports = {
     },
     mongo: {
         conn: 'mongodb://root:prod_Chgg2016@dds-2ze7bad1514e85641.mongodb.rds.aliyuncs.com:3717,dds-2ze7bad1514e85642.mongodb.rds.aliyuncs.com:3717/HanGreat?replicaSet=mgset-3365873',
-        options: {server: {poolSize: 2}, replset: {poolSize: 2}},
+        options: {poolSize: 2}
     },
     redis: {
-        host: 'r-bp1f854c05aa36f4.redis.rds.aliyuncs.com',
+        host: 'r-2ze5678b3244ef64.redis.rds.aliyuncs.com',
         port: '6379',
-        auth: 'r-bp1f854c05aa36f4:Chgg2016'
+        auth: 'Chgg2016'
     }
 };

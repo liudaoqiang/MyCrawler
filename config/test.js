@@ -40,7 +40,7 @@ module.exports = {
     },
     redis: {
         host: 'r-bp1f854c05aa36f4.redis.rds.aliyuncs.com',
-        password: 'Chgg2016',
+        auth: 'Chgg2016',
         port: '6379'
     }
 };
