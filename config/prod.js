@@ -33,7 +33,7 @@ module.exports = {
     },
     mongo: {
         conn: 'mongodb://root:prod_Chgg2016@dds-2ze7bad1514e85641.mongodb.rds.aliyuncs.com:3717,dds-2ze7bad1514e85642.mongodb.rds.aliyuncs.com:3717/HanGreat?replicaSet=mgset-3365873',
-        options: {poolSize: 2}
+        options: {poolSize: 10}
     },
     redis: {
         host: 'r-2ze5678b3244ef64.redis.rds.aliyuncs.com',
