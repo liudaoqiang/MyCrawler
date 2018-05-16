@@ -9,7 +9,7 @@ const redis = require("./model/redis/RedisDB");
 const RedisKeys = require("./model/redis/RedisKeys");
 
 let DongfangProcesser = require('./priceProcesser/dongfang');
-// let KangmeiProcesser = require('./priceProcesser/kangmei');
+let KangmeiProcesser = require('./priceProcesser/kangmei');
 let YaotongProcesser = require('./priceProcesser/yaotong');
 let TiandiProcesser = require('./priceProcesser/tiandi');
 
@@ -47,6 +47,12 @@ function crawleInternetPrices() {
                 const dongfangProcesser = new DongfangProcesser(data);
                 const zyczycProcesser = dongfangProcesser.getProcesser(dongfangProcesser.saveDataToMongo);
                 c.queue(zyczycProcesser);
+
+                ["亳州", "安国", "成都荷花池","玉林","廉桥","普宁"].forEach(market => {
+                    const kangmeiProcesser = new KangmeiProcesser("当归", market);
+                    const kmzycProcesser = kangmeiProcesser.getProcesser(kangmeiProcesser.saveDataToMongo);
+                    c.queue(kmzycProcesser);
+                });
             });
         }
     });

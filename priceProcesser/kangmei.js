@@ -2,19 +2,88 @@
  * Created by bozhang on 2017/5/4.
  */
 "use strict";
+const moment = require('moment');
+const request = require("request");
 
-module.exports = [{
-    uri: 'http://m.kmzyw.com.cn/price/data/price_index_search2.jsp',
-    // uri: 'http://m.kmzyw.com.cn/jiage/jsp/data.jsp', post form 参数 name:名称，获取药品id
-    // uri: 'http://m.kmzyw.com.cn/jiage/jsp/get_td_price.jsp',参数 表单 site:市场，drugid："id"，pages:0
-    jquery: false,
-    callback: function (error, res, done) {
-        if(error){
-            console.log(error);
-        }else{
-            let json = res.body;
-            console.log(json);
+const InternetPricesData = require('../model/mongodb/InternetPricesData');
+
+function Kangmei(medicineName, market) {
+    this.medicineName = medicineName;
+    this.site = market;
+}
+
+Kangmei.prototype.getProcesser = function (callback) {
+    const medicineName = this.medicineName;
+    const site = this.site;
+
+    return [{
+        url: 'http://m.kmzyw.com.cn/jiage/jsp/get_td_price.jsp',
+        // 获取药品对应的dragId
+        preRequest: function (options, done) {
+            const that = this;
+            const dragInfoOptions = {
+                url: 'http://m.kmzyw.com.cn/resources/jsp/pznamedata_id.jsp',
+                form: {
+                    name: encodeURI(medicineName),
+                    type:1
+                }
+            };
+            request.post(dragInfoOptions, function (err, httpResponse, body) {
+                const DragInfo = JSON.parse(body);
+                options.form = {
+                    drugid: DragInfo.rows[0].dvalue.split('-')[0],
+                    pages: 0,
+                    site: encodeURI(site)
+                };
+                done();
+            });
+
+        },
+        method: "POST",
+        headers: {
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36",
+            "Accept": "application/json, text/javascript, */*; q=0.01",
+            "accept-encoding": "gzip, deflate",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        form: {},
+        jquery: false,
+        callback: function (error, res, done) {
+            if (error) {
+                console.log(error);
+            } else {
+                let $ = res.$;
+                const data = JSON.parse(res.body);
+                let datas = new Array();
+                datas = data.rows.map(row => {
+                    let doc = {site_name: "kmzyc.com.cn"};
+                    doc.market_name = site === "成都荷花池" ? "成都" : site;
+                    doc.medicine_name = row.drug_name;
+                    doc.medicine_price = parseFloat(row.pricenum) * 100;
+                    doc.produce_area = row.orgin;
+                    doc.medicine_type = row.standards;
+                    doc.price_trend = row.week_calculate;
+                    doc.time = moment.now();
+                    doc.public_date = moment().format('YYYY-MM-DD');
+                    return doc;
+                });
+
+                callback(datas)
+            }
+            done();
         }
-        done();
-    }
-}];
+    }];
+
+};
+
+Kangmei.prototype.saveDataToMongo = function (datas) {
+
+    const internetPricesData = new InternetPricesData();
+    datas.forEach($priceData => {
+        if (!!$priceData) {
+            internetPricesData.save($priceData)
+        }
+    });
+};
+
+module.exports = Kangmei;
