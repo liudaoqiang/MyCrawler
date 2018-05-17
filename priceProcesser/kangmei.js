@@ -57,7 +57,7 @@ Kangmei.prototype.getProcesser = function (callback) {
                     const data = JSON.parse(res.body);
                     let datas = new Array();
                     datas = data.rows.map(row => {
-                        let doc = {site_name: "kmzyc.com.cn"};
+                        let doc = {site_name: "kmzyw.com.cn"};
                         doc.market_name = site === "成都荷花池" ? "成都" : site;
                         doc.medicine_name = row.drug_name;
                         doc.medicine_price = parseFloat(row.pricenum) * 100;

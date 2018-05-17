@@ -51,8 +51,8 @@ function crawleInternetPrices() {
 
                     ["亳州", "安国", "成都荷花池","玉林","廉桥","普宁"].forEach(market => {
                         const kangmeiProcesser = new KangmeiProcesser(data, market);
-                        const kmzycProcesser = kangmeiProcesser.getProcesser(kangmeiProcesser.saveDataToMongo);
-                        c.queue(kmzycProcesser);
+                        const kmzywProcesser = kangmeiProcesser.getProcesser(kangmeiProcesser.saveDataToMongo);
+                        c.queue(kmzywProcesser);
                     });
                 });
             } catch (e) {
