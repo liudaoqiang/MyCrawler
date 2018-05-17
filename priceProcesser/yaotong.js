@@ -61,7 +61,7 @@ YaoTong.prototype.saveDataToMongo = function (rawData) {
             });
         }
     } catch (e) {
-        console.error("药通网抓取" + this.medicineName + "出错：", e);
+        console.error("药通网抓取出错：", e);
     }
 };
 

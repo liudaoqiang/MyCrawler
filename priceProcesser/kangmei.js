@@ -31,7 +31,7 @@ Kangmei.prototype.getProcesser = function (callback) {
             request.post(dragInfoOptions, function (err, httpResponse, body) {
                 const DragInfo = JSON.parse(body);
                 options.form = {
-                    drugid: DragInfo.rows[0].dvalue.split('-')[0],
+                    drugid: DragInfo.rows && DragInfo.rows[0].dvalue.split('-')[0],
                     pages: 0,
                     site: encodeURI(site)
                 };

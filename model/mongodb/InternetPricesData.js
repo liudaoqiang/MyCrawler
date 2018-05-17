@@ -2,16 +2,19 @@
  * Created by bozhang on 2017/6/1.
  */
 "use strict";
-const MongoDB = require('./MongoDBSingleton');
+const MongoDB = require('./MongoDB');
 const schema = require('./schema/InternetPricesData');
+let model = null;
 
 function InternetPricesData() {
-    const mongodb = new MongoDB();
-    this.model = mongodb.getModel(schema);
+    const mongodb = new MongoDB;
+    if (!model) {
+        model = mongodb.getModel(schema);
+    }
 }
 
 InternetPricesData.prototype.save = function (data) {
-    const m = new this.model(data);
+    const m = model(data);
     m.save();
 };
 
