@@ -52,23 +52,27 @@ Kangmei.prototype.getProcesser = function (callback) {
             if (error) {
                 console.log(error);
             } else {
-                let $ = res.$;
-                const data = JSON.parse(res.body);
-                let datas = new Array();
-                datas = data.rows.map(row => {
-                    let doc = {site_name: "kmzyc.com.cn"};
-                    doc.market_name = site === "成都荷花池" ? "成都" : site;
-                    doc.medicine_name = row.drug_name;
-                    doc.medicine_price = parseFloat(row.pricenum) * 100;
-                    doc.produce_area = row.orgin;
-                    doc.medicine_type = row.standards;
-                    doc.price_trend = row.week_calculate;
-                    doc.time = moment.now();
-                    doc.public_date = moment().format('YYYY-MM-DD');
-                    return doc;
-                });
+                try {
+                    let $ = res.$;
+                    const data = JSON.parse(res.body);
+                    let datas = new Array();
+                    datas = data.rows.map(row => {
+                        let doc = {site_name: "kmzyc.com.cn"};
+                        doc.market_name = site === "成都荷花池" ? "成都" : site;
+                        doc.medicine_name = row.drug_name;
+                        doc.medicine_price = parseFloat(row.pricenum) * 100;
+                        doc.produce_area = row.orgin;
+                        doc.medicine_type = row.standards;
+                        doc.price_trend = row.week_calculate;
+                        doc.time = moment.now();
+                        doc.public_date = moment().format('YYYY-MM-DD');
+                        return doc;
+                    });
 
-                callback(datas)
+                    callback(datas)
+                } catch (e) {
+                    console.error("KangMei 价格解析异常：", e)
+                }
             }
             done();
         }
@@ -77,13 +81,17 @@ Kangmei.prototype.getProcesser = function (callback) {
 };
 
 Kangmei.prototype.saveDataToMongo = function (datas) {
+    try {
+        const internetPricesData = new InternetPricesData();
+        datas.forEach($priceData => {
+            if (!!$priceData) {
+                internetPricesData.save($priceData)
+            }
+        });
+    } catch (e) {
+        console.error("KangMei 价格数据保存异常：", e)
 
-    const internetPricesData = new InternetPricesData();
-    datas.forEach($priceData => {
-        if (!!$priceData) {
-            internetPricesData.save($priceData)
-        }
-    });
+    }
 };
 
 module.exports = Kangmei;

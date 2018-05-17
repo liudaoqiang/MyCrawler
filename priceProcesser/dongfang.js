@@ -30,31 +30,34 @@ Dongfang.prototype.getProcesser = function (callback) {
             if (error) {
                 console.log(error);
             } else {
-                let $ = res.$;
-                const size = $("#ContentPlaceHolder1_GridView1 tr").length;
-                console.log(size);
-                let datas = new Array();
-                for (let i = 2; i <= size; i++) {
-                    if(!!$("#ContentPlaceHolder1_GridView1 tr:nth-child("+i+")").html()) {
-                        const medicine_name = util.decodeUTF8($("#ContentPlaceHolder1_GridView1 tr:nth-child("+i+") td:nth-child(1) a").html());
-                        let doc = {site_name: "zyczyc.com"};
-                        if (!medicine_name) break;
+                try {
+                    let $ = res.$;
+                    const size = $("#ContentPlaceHolder1_GridView1 tr").length;
+                    console.log(size);
+                    let datas = new Array();
+                    for (let i = 2; i <= size; i++) {
+                        if(!!$("#ContentPlaceHolder1_GridView1 tr:nth-child("+i+")").html()) {
+                            const medicine_name = util.decodeUTF8($("#ContentPlaceHolder1_GridView1 tr:nth-child("+i+") td:nth-child(1) a").html());
+                            let doc = {site_name: "zyczyc.com"};
+                            if (!medicine_name) break;
 
-                        doc.market_name = "全国";
-                        doc.medicine_name = medicine_name;
-                        doc.produce_area = util.decodeUTF8($("#ContentPlaceHolder1_GridView1 tr:nth-child("+i+") td:nth-child(3)").html());
-                        doc.medicine_type = util.decodeUTF8($("#ContentPlaceHolder1_GridView1 tr:nth-child("+i+") td:nth-child(2)").html());
-                        doc.medicine_price = $("#ContentPlaceHolder1_GridView1 tr:nth-child("+i+") td:nth-child(4)").html() * 100;
-                        doc.price_trend = util.decodeUTF8($("#ContentPlaceHolder1_GridView1 tr:nth-child("+i+") td:nth-child(5)").html());
-                        doc.time = moment.now();
-                        doc.public_date = moment().format('YYYY-MM-DD');
+                            doc.market_name = "全国";
+                            doc.medicine_name = medicine_name;
+                            doc.produce_area = util.decodeUTF8($("#ContentPlaceHolder1_GridView1 tr:nth-child("+i+") td:nth-child(3)").html());
+                            doc.medicine_type = util.decodeUTF8($("#ContentPlaceHolder1_GridView1 tr:nth-child("+i+") td:nth-child(2)").html());
+                            doc.medicine_price = $("#ContentPlaceHolder1_GridView1 tr:nth-child("+i+") td:nth-child(4)").html() * 100;
+                            doc.price_trend = util.decodeUTF8($("#ContentPlaceHolder1_GridView1 tr:nth-child("+i+") td:nth-child(5)").html());
+                            doc.time = moment.now();
+                            doc.public_date = moment().format('YYYY-MM-DD');
 
-                        console.log(JSON.stringify(doc));
-                        datas[i] = doc;
+                            datas[i] = doc;
 
+                        }
                     }
+                    callback(datas)
+                } catch (e) {
+                    console.error("Dongfang 价格数据解析异常：", e)
                 }
-                callback(datas)
             }
             done();
         }
@@ -62,13 +65,16 @@ Dongfang.prototype.getProcesser = function (callback) {
 };
 
 Dongfang.prototype.saveDataToMongo = function (datas) {
-
-    const internetPricesData = new InternetPricesData();
-    datas.forEach($priceData => {
-        if (!!$priceData) {
-            internetPricesData.save($priceData)
-        }
-    });
+    try {
+        const internetPricesData = new InternetPricesData();
+        datas.forEach($priceData => {
+            if (!!$priceData) {
+                internetPricesData.save($priceData)
+            }
+        });
+    } catch (e) {
+        console.error("Dongfang 价格数据保存异常：", e)
+    }
 };
 
 module.exports = Dongfang;

@@ -23,25 +23,29 @@ Tiandi.prototype.getProcesser = function (callback) {
             if (error) {
                 console.log(error);
             } else {
-                let $ = res.$;
-                const size = $(".priceTableRows li").length;
-                let datas = new Array();
-                for (let i = 1; i <= size; i++) {
-                    let doc = {site_name: "zyctd.com"};
-                    doc.market_name = util.decodeUTF8($(".priceTableRows li:nth-child("+i+") .w9").html());
-                    doc.medicine_name = util.decodeUTF8($(".priceTableRows li:nth-child("+i+") .w1 a").html());
-                    doc.medicine_price = $(".priceTableRows li:nth-child("+i+") .w3").html() * 100;
-                    let typeAndArea = util.decodeUTF8($(".priceTableRows li:nth-child("+i+") .w2 a").html()).split(' ');
-                    doc.produce_area = typeAndArea[1];
-                    doc.medicine_type = typeAndArea[0];
-                    doc.price_trend = util.decodeUTF8($(".priceTableRows li:nth-child("+i+") .w4").html());
-                    doc.time = moment.now();
-                    doc.public_date = moment().format('YYYY-MM-DD');
+                try {
+                    let $ = res.$;
+                    const size = $(".priceTableRows li").length;
+                    let datas = new Array();
+                    for (let i = 1; i <= size; i++) {
+                        let doc = {site_name: "zyctd.com"};
+                        doc.market_name = util.decodeUTF8($(".priceTableRows li:nth-child("+i+") .w9").html());
+                        doc.medicine_name = util.decodeUTF8($(".priceTableRows li:nth-child("+i+") .w1 a").html());
+                        doc.medicine_price = $(".priceTableRows li:nth-child("+i+") .w3").html() * 100;
+                        let typeAndArea = util.decodeUTF8($(".priceTableRows li:nth-child("+i+") .w2 a").html()).split(' ');
+                        doc.produce_area = typeAndArea[1];
+                        doc.medicine_type = typeAndArea[0];
+                        doc.price_trend = util.decodeUTF8($(".priceTableRows li:nth-child("+i+") .w4").html());
+                        doc.time = moment.now();
+                        doc.public_date = moment().format('YYYY-MM-DD');
 
-                    // console.log(JSON.stringify(doc));
-                    datas[i] = doc;
+                        // console.log(JSON.stringify(doc));
+                        datas[i] = doc;
+                    }
+                    callback(datas)
+                } catch (e) {
+                    console.error("Tiandi 价格数据解析异常：", e);
                 }
-                callback(datas)
             }
             done();
         }
@@ -49,13 +53,16 @@ Tiandi.prototype.getProcesser = function (callback) {
 };
 
 Tiandi.prototype.saveDataToMongo = function (datas) {
-
-    const internetPricesData = new InternetPricesData();
-    datas.forEach($priceData => {
-        if (!!$priceData) {
-            internetPricesData.save($priceData)
-        }
-    });
+    try {
+        const internetPricesData = new InternetPricesData();
+        datas.forEach($priceData => {
+            if (!!$priceData) {
+                internetPricesData.save($priceData)
+            }
+        });
+    } catch (e) {
+        console.error("Tiandi 价格数据保存异常：", e);
+    }
 };
 
 module.exports = Tiandi;
