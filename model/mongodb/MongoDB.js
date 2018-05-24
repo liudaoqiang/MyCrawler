@@ -2,7 +2,7 @@
  * Created by bozhang on 2017/6/1.
  */
 "use strict";
-const env = process.env.NODE_ENV;
+const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'local';
 const mongoose = require('mongoose');
 const mongoConf = require('../../config')(env).mongo;
 

@@ -4,7 +4,7 @@ var Redis = require("redis");
 var bluebird = require('bluebird');
 const cluster = require('cluster');
 
-const env = process.env.NODE_ENV;
+const env = process.env.NODE_ENV ?  process.env.NODE_ENV : 'local';
 const redisConf = require('../../config/index')(env).redis;
 const options = {
     host:redisConf.host,
