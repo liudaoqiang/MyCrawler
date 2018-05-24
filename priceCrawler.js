@@ -33,6 +33,7 @@ var c = new Crawler({
 
 function crawleInternetPrices() {
     redis.getAsync(RedisKeys.InternetPriceMedicineName).then(result => {
+        console.log(" crawled the medicines : ", result);
         if (!!result) {
             try {
                 const datas = JSON.parse(result);
@@ -59,6 +60,8 @@ function crawleInternetPrices() {
                 console.log("Price Crawler Exception : ", e)
             }
         }
+    }).catch(err => {
+        console.log("Get medicine names error : ", err);
     });
 }
 const env = process.env.NODE_ENV;

@@ -9,6 +9,7 @@ const redisConf = require('../../config/index')(env).redis;
 const options = {
     host:redisConf.host,
     port:redisConf.port,
+    db:redisConf.db,
     retry_strategy: function (options) {
         if (options.total_retry_time > 1000 * 30) {
             // const content = "最高警报：Core API的Redis服务器断开，重连30秒无效，请立即处理！";
