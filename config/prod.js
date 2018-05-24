@@ -38,6 +38,7 @@ module.exports = {
     redis: {
         host: 'r-2ze5678b3244ef64.redis.rds.aliyuncs.com',
         port: '6379',
-        auth: 'Chgg2016'
+        auth: 'Chgg2016',
+        db: 1 // 种植监控用DB0;生产管理用DB1;信息系统用DB6
     }
 };

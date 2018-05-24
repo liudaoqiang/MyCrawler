@@ -40,6 +40,7 @@ module.exports = {
     },
     redis: {
         host: '127.0.0.1',
-        port: '6379'
+        port: '6379',
+        db: 0 // 种植监控用DB0;生产管理用DB1;信息系统用DB6
     }
 };
