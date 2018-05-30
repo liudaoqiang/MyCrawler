@@ -39,7 +39,7 @@ module.exports = {
         options: {server: {poolSize: 2}, replset: {poolSize: 2}},
     },
     redis: {
-        host: 'r-bp1f854c05aa36f4.redis.rds.aliyuncs.com',
+        host: 'r-2ze2d2aec621ae04.redis.rds.aliyuncs.com',
         auth: 'Chgg2016',
         port: '6379',
         db:1
