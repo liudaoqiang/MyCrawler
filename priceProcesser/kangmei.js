@@ -53,7 +53,6 @@ Kangmei.prototype.getProcesser = function (callback) {
                 console.log(error);
             } else {
                 try {
-                    let $ = res.$;
                     const data = JSON.parse(res.body);
                     let datas = new Array();
                     datas = data.rows.map(row => {

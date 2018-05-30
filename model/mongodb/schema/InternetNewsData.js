@@ -8,8 +8,10 @@ module.exports = {
         news_category: {type: String}, // 资讯类别
         origin_url: {type: String}, // 采集网址
         origin_tags: [], // 原资讯标签
+        related_herbs:[], // 资讯关联药材
         news_title: {type: String}, // 资讯标题
-        news_content: {type: String}, // 资讯内容
+        news_content_text: {type: String}, // 资讯内容
+        news_content_html: {type: String}, // 资讯内容
         news_collector: {type: String}, // 采集员
         news_editor: {type: String}, // 编辑
         public_date: {type: String}, // 公布日期
@@ -18,7 +20,7 @@ module.exports = {
     },
     // 索引
     index: [
-        {origin_url: -1},
+        {origin_url: -1}, {unique: true, dropDups: true},
         {origin_tags: -1},
         {crawled_date: -1}
     ]

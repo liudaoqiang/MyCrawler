@@ -48,13 +48,15 @@ Tiandi.prototype.getNewsProcessor = function (link, callback) {
 
                     const news ={
                         site_name: "中药材天地网",
-                        news_source: util.decodeUTF8($("#infoDetailRegion .attr span").eq(1).html()),
+                        news_source: util.decodeUTF8($("#infoDetailRegion .attr span").eq(1).html()).replace("作者:", ""),
                         news_category: util.decodeUTF8($(".place a").eq(2).html()),
                         origin_url: link,
                         origin_tags:[util.decodeUTF8($(".sortlist .vm li a:nth-child(1)").html())],
+                        related_herbs:[util.decodeUTF8($(".sortlist .vm li a:nth-child(1)").html())],
                         news_title: util.decodeUTF8($("#infoDetailRegion h1").html()),
-                        news_content: util.decodeUTF8($("#infoContent").html().replace(/<[^>]+>/g,"")),
-                        news_editor: util.decodeUTF8($("#infoDetailRegion .attr span").eq(1).html()),
+                        news_content_html: util.decodeUTF8($("#infoContent").html()),
+                        news_content_text: util.decodeUTF8($("#infoContent").html().replace(/<[^>]+>/g,"")),
+                        news_editor: util.decodeUTF8($("#infoDetailRegion .attr span").eq(1).html()).replace("作者:", ""),
                         public_date: util.decodeUTF8($("#infoDetailRegion .attr span").eq(0).html()),
                         crawled_date: moment().format('YYYY-MM-DD'),
                         time:  parseInt(moment().format('X')) // 时间戳（秒）

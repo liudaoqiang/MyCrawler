@@ -13,12 +13,12 @@ function InternetNewsData() {
     }
 }
 
-InternetNewsData.prototype.save = function (data) {
+InternetNewsData.prototype.save = function (data, done) {
     const m = model(data);
     m.save().then(result => {
 
     }).catch(error => {
-        console.log(error);
+        console.log(error.toJSON());
     });
 };
 
