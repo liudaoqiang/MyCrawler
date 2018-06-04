@@ -76,11 +76,11 @@ Kangmei.prototype.getNewsProcessor = function (link, channel, callback) {
                         news_category: util.decodeUTF8($(".location p a").eq(2).html()),
                         origin_url: link,
                         origin_tags:tags,
-                        related_herbs:[],
+                        related_herbs:herbs,
                         news_title: util.decodeUTF8($(".km-article-cont .title-wrap").html()),
                         news_content_html: util.decodeUTF8($(".cont-wrap").html()),
                         news_content_text: util.decodeUTF8($(".cont-wrap").html().replace(/<[^>]+>/g,"")),
-                        news_editor: util.decodeUTF8($(".editor-class").html()),
+                        news_editor: null,
                         public_date: util.decodeUTF8($(".source-wrap span").eq(2).html()),
                         crawled_date: moment().format('YYYY-MM-DD'),
                         time:  parseInt(moment().format('X')) // 时间戳（秒）
