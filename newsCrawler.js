@@ -65,7 +65,7 @@ const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'local';
 if (env === 'local') {
     crawleInternetnews();
 } else {
-    schedule.scheduleJob('33 10 * * *', function () {
+    schedule.scheduleJob('33 * * * *', function () {
         crawleInternetnews();
     });
 }
