@@ -31,7 +31,7 @@ var c = new Crawler({
 
 function crawleInternetnews() {
     // 天地网资讯
-    for (let page = 1; page < 10; page++) {
+    for (let page = 1; page < 4; page++) {
         const tiandiProcesser = new TiandiProcesser();
         const listProcessor = tiandiProcesser.getNewsListProcessor('http://www.zyctd.com/zixun-' + page + '.html', (newsLinks => {
             newsLinks.forEach(link => {
@@ -65,7 +65,7 @@ const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'local';
 if (env === 'local') {
     crawleInternetnews();
 } else {
-    schedule.scheduleJob('33 * * * *', function () {
+    schedule.scheduleJob('0 8-18/1 * * *', function () {
         crawleInternetnews();
     });
 }
