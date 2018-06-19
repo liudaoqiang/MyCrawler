@@ -16,9 +16,9 @@ function InternetNewsData() {
 InternetNewsData.prototype.save = function (data, done) {
     const m = model(data);
     m.save().then(result => {
-
+        done(result);
     }).catch(error => {
-        console.log(error.toJSON());
+        console.log(error);
     });
 };
 
