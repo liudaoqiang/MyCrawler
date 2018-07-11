@@ -32,7 +32,7 @@ var c = new Crawler({
 });
 
 function crawleInternetPrices() {
-    redis.getAsync(RedisKeys.InternetPriceMedicineName).then(result => {
+    redis.getAsync(RedisKeys.ALL_HERB_NAMES_FOR_INTERNET_PRICE).then(result => {
         console.log(" crawled the medicines : ", result);
         if (!!result) {
             try {
