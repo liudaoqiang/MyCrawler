@@ -38,20 +38,20 @@ function crawleInternetPrices() {
             try {
                 const datas = JSON.parse(result);
                 datas.forEach(data => {
-                    const yaotongProcesser = new YaotongProcesser(data);
+                    const yaotongProcesser = new YaotongProcesser(data.herbName);
                     const yt1998Processer = yaotongProcesser.getProcesser(yaotongProcesser.saveDataToMongo);
                     c.queue(yt1998Processer);
 
-                    const tiandiProcesser = new TiandiProcesser(data);
+                    const tiandiProcesser = new TiandiProcesser(data.herbName);
                     const zyctdProcesser = tiandiProcesser.getProcesser(tiandiProcesser.saveDataToMongo);
                     c.queue(zyctdProcesser);
 
-                    const dongfangProcesser = new DongfangProcesser(data);
+                    const dongfangProcesser = new DongfangProcesser(data.herbName);
                     const zyczycProcesser = dongfangProcesser.getProcesser(dongfangProcesser.saveDataToMongo);
                     c.queue(zyczycProcesser);
 
                     ["亳州", "安国", "成都荷花池","玉林","廉桥","普宁"].forEach(market => {
-                        const kangmeiProcesser = new KangmeiProcesser(data, market);
+                        const kangmeiProcesser = new KangmeiProcesser(data.herbName, market);
                         const kmzywProcesser = kangmeiProcesser.getProcesser(kangmeiProcesser.saveDataToMongo);
                         c.queue(kmzywProcesser);
                     });
