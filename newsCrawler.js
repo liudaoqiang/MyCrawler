@@ -43,7 +43,7 @@ function crawleInternetnews() {
 
     // 康美网资讯
     const kangmeiProcesser = new KangmeiProcesser(redis);
-    const kmMarketProcessor = kangmeiProcesser.getNewsListProcessor(10100, 1, 20, (newsLinks => {
+    const kmMarketProcessor = kangmeiProcesser.getNewsListProcessor(10100, 0, 20, (newsLinks => {
         newsLinks.forEach(link => {
             console.log(link);
             const kmzycProcesser = kangmeiProcesser.getNewsProcessor(link, 10100);
@@ -51,7 +51,7 @@ function crawleInternetnews() {
         });
     }));
     c.queue(kmMarketProcessor);
-    const kmOriginPlaceProcessor = kangmeiProcesser.getNewsListProcessor(10200, 1, 20, (newsLinks => {
+    const kmOriginPlaceProcessor = kangmeiProcesser.getNewsListProcessor(10200, 0, 20, (newsLinks => {
         newsLinks.forEach(link => {
             const kmzycProcesser = kangmeiProcesser.getNewsProcessor(link, 10200);
             c.queue(kmzycProcesser);
