@@ -77,7 +77,7 @@ class Kangmei extends NewsBaseProcesser {
                         }
                         const news ={
                             site_name: "康美中药网",
-                            news_source: util.decodeUTF8($(".source-wrap span").eq(0).html()).replace("来源：", ""),
+                            news_source: util.decodeUTF8($(".source-wrap span").eq(1).html()).replace("来源：", ""),
                             news_category: util.decodeUTF8($(".location p a").eq(2).html()),
                             origin_url: link,
                             origin_tags:tags,
@@ -86,7 +86,7 @@ class Kangmei extends NewsBaseProcesser {
                             news_content_html: util.decodeUTF8($(".cont-wrap").html()),
                             news_content_text: util.decodeUTF8($(".cont-wrap").html().replace(/<[^>]+>/g,"")),
                             news_editor: null,
-                            public_date: util.decodeUTF8($(".source-wrap span").eq(2).html()),
+                            public_date: util.decodeUTF8($(".source-wrap span").eq(0).html()),
                             crawled_date: moment().format('YYYY-MM-DD'),
                             time:  parseInt(moment().format('X')) // 时间戳（秒）
                         };
