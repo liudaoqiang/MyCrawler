@@ -75,19 +75,6 @@ class Tiandi extends NewsBaseProcesser {
             }
         }];
     }
-
-    saveDataToMongo(newData) {
-        try {
-            const internetnewsData = new InternetNewsData();
-            internetnewsData.save(newData, result => {
-                if (result) {
-                    this.newsNotification(result);
-                }
-            });
-        } catch (e) {
-            console.error("Tiandi 资讯数据保存异常：", e);
-        }
-    }
 }
 
 module.exports = Tiandi;
