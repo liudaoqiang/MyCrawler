@@ -7,8 +7,9 @@ const schedule = require("node-schedule");
 
 const redis = require("./model/redis/RedisDB");
 
-let TiandiProcesser = require('./newsProcesser/tiandi');
-let KangmeiProcesser = require('./newsProcesser/kangmei');
+const TiandiProcesser = require('./newsProcesser/tiandi');
+const KangmeiProcesser = require('./newsProcesser/kangmei');
+const YaotongProcesser = require('./newsProcesser/yaotong');
 
 
 const c = new Crawler({
@@ -58,6 +59,16 @@ function crawleInternetnews() {
         });
     }));
     c.queue(kmOriginPlaceProcessor);
+
+    // 药通网资讯
+    const yaotongProcesser = new YaotongProcesser(redis);
+    [1, 2, 3, 4, 5, 9].forEach(id => {
+        const ytListProcesser = yaotongProcesser.getNewsListProcessor(id, 0, 20, (newsData => {
+            const yt1998Processer = yaotongProcesser.getNewsProcessor(newsData);
+            c.queue(yt1998Processer);
+        }));
+        c.queue(ytListProcesser);
+    });
 }
 
 const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'local';
