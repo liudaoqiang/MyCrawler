@@ -68,7 +68,12 @@ class Yaotong extends NewsBaseProcesser {
                         let data = JSON.parse(res.body).data;
                         data.forEach(ytNews => {
                             const config = newsConfig[categoryId];
-                            const herbs = ytNews.ycnam.split(' ');
+                            let herbs = [];
+                            if (ytNews.ycnam.indexOf('、') > 0) {
+                                herbs = ytNews.ycnam.split('、');
+                            } else {
+                                herbs = ytNews.ycnam.split(' ');
+                            }
                             const news = {
                                 site_name: "药通网",
                                 news_source: ytNews.source ? ytNews.source : "药通网",
