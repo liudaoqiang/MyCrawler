@@ -29,12 +29,18 @@ Kangmei.prototype.getProcesser = function (callback) {
                 }
             };
             request.post(dragInfoOptions, function (err, httpResponse, body) {
-                const DragInfo = JSON.parse(body);
-                options.form = {
-                    drugid: DragInfo.rows && DragInfo.rows[0].dvalue.split('-')[0],
-                    pages: 0,
-                    site: encodeURI(site)
-                };
+                if (body) {
+                    try {
+                        const DragInfo = JSON.parse(body);
+                        options.form = {
+                            drugid: DragInfo.rows && DragInfo.rows[0].dvalue.split('-')[0],
+                            pages: 0,
+                            site: encodeURI(site)
+                        };
+                    }catch (e) {
+                        console.error(e);
+                    }
+                }
                 done();
             });
 
